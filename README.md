@@ -13,6 +13,7 @@ deploy command `npx wrangler deploy`, then attach `baderech.app` as a custom dom
 | `/` | The apps |
 | `/about/` | About, with contact |
 | `/privacy/` | Privacy policy |
+| `/terms/` | Terms of service |
 
 ## Local development
 
