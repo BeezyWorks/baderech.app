@@ -1,6 +1,6 @@
 # baderech.app
 
-The home page for the Baderech apps (Siddur One, Mikros BaDerech, Mishnayos), with
+The home page for the Baderech apps (Siddur One, Mikra BaDerech, Mishnayos), with
 a privacy policy and an about page.
 
 Plain static files in `public/`, no build step, same approach as
