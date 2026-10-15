@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sign in, create or manage your Baderech account.">
+<meta name="auth-base" content="https://auth.baderech.app">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Account · Baderech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/css/site.css">
+<script src="/js/account.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="bsd" lang="he" title="B'siyata d'Shmaya">בס״ד</span>
+    <a class="mark" href="/"><span class="he" lang="he">בדרך</span><span class="en">baderech.app</span></a>
+    <nav aria-label="Site">
+      <a href="/#apps">Apps</a>
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a class="pill" href="/account/" aria-current="page">Account</a>
+    </nav>
+  </header>
+
+  <main class="acct">
+    <p class="msg" id="banner" role="status" hidden></p>
+
+    <p class="loading" id="loading">Loading…</p>
+
+    <!-- Signed out -->
+    <div id="out" hidden>
+      <div class="acct-head">
+        <span class="label">Baderech account</span>
+        <h1 id="out-title">Baruch haba.</h1>
+        <p>One account for Mikros BaDerech, Mishnayos and Siddur One. You never need an account to learn, but it's here when you want one.</p>
+      </div>
+
+      <div class="card">
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" id="tab-in" aria-selected="true" aria-controls="signin">Sign in</button>
+          <button type="button" role="tab" id="tab-up" aria-selected="false" aria-controls="signup">Create account</button>
+        </div>
+
+        <div class="socials" id="socials" hidden>
+          <button type="button" class="btn" data-social="google" hidden>Continue with Google</button>
+          <button type="button" class="btn" data-social="apple" hidden>Continue with Apple</button>
+        </div>
+        <div class="or" id="or" hidden>or with email</div>
+
+        <form id="signin" novalidate>
+          <div class="field"><label for="si-email">Email</label><input id="si-email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="si-pass">Password</label><input id="si-pass" type="password" autocomplete="current-password" required></div>
+          <button class="btn ink" type="submit">Sign in</button>
+          <button class="linkish" type="button" id="to-forgot">Forgot your password?</button>
+        </form>
+
+        <form id="signup" novalidate hidden>
+          <div class="row2">
+            <div class="field"><label for="su-first">First name</label><input id="su-first" type="text" autocomplete="given-name" required></div>
+            <div class="field"><label for="su-last">Last name</label><input id="su-last" type="text" autocomplete="family-name"></div>
+          </div>
+          <div class="field"><label for="su-email">Email</label><input id="su-email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="su-pass">Password</label><input id="su-pass" type="password" autocomplete="new-password" minlength="8" required><span class="hint">At least 8 characters.</span></div>
+          <button class="btn ink" type="submit">Create account</button>
+          <p class="field hint">By creating an account you agree to the <a href="/privacy/">privacy policy</a>.</p>
+        </form>
+
+        <form id="forgot" novalidate hidden>
+          <p>Enter your email and we'll send you a link to choose a new password.</p>
+          <div class="field"><label for="fp-email">Email</label><input id="fp-email" type="email" autocomplete="email" required></div>
+          <button class="btn ink" type="submit">Send reset link</button>
+          <button class="linkish" type="button" id="back-signin">Back to sign in</button>
+        </form>
+
+        <div id="check-email" hidden>
+          <h2>Check your email</h2>
+          <p>We sent a link to <strong id="sent-to"></strong>. Click it to confirm your address, then come back here and sign in.</p>
+          <p class="hint">Nothing there? Check spam, or <button class="linkish" type="button" id="resend">send it again</button>.</p>
+        </div>
+
+        <p class="msg" id="out-msg" role="alert"></p>
+      </div>
+    </div>
+
+    <!-- Signed in -->
+    <div id="in" hidden>
+      <div class="card">
+        <div class="who">
+          <div class="avatar" id="avatar" aria-hidden="true"></div>
+          <div>
+            <div class="name" id="who-name"></div>
+            <div class="email"><span id="who-email"></span> <span class="badge" id="who-verified"></span></div>
+          </div>
+        </div>
+        <p class="msg" id="in-msg" role="status"></p>
+      </div>
+
+      <div class="card">
+        <h2>Your name</h2>
+        <p>How you'll appear in the apps. The display name is optional. If you leave it blank, we'll use your first and last name.</p>
+        <form id="profile">
+          <div class="row2">
+            <div class="field"><label for="pf-first">First name</label><input id="pf-first" type="text" autocomplete="given-name"></div>
+            <div class="field"><label for="pf-last">Last name</label><input id="pf-last" type="text" autocomplete="family-name"></div>
+          </div>
+          <div class="field"><label for="pf-display">Display name</label><input id="pf-display" type="text" autocomplete="nickname" placeholder="e.g. Moshe from Lakewood"></div>
+          <button class="btn ink" type="submit">Save</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Ways to sign in</h2>
+        <ul class="conns" id="conns"></ul>
+      </div>
+
+      <div class="card" id="pw-card">
+        <h2>Password</h2>
+        <form id="password" hidden>
+          <div class="field"><label for="pw-cur">Current password</label><input id="pw-cur" type="password" autocomplete="current-password" required></div>
+          <div class="row2">
+            <div class="field"><label for="pw-new">New password</label><input id="pw-new" type="password" autocomplete="new-password" minlength="8" required></div>
+            <div class="field"><label for="pw-confirm">Confirm</label><input id="pw-confirm" type="password" autocomplete="new-password" minlength="8" required></div>
+          </div>
+          <label class="check"><input type="checkbox" id="pw-revoke" checked> Sign out my other devices</label>
+          <button class="btn ink" type="submit">Change password</button>
+        </form>
+        <div id="pw-none" hidden>
+          <p>You sign in with Google or Apple, so you don't have a password yet. If you want one too, we'll email you a link to set it.</p>
+          <button class="btn" type="button" id="pw-set">Email me a link</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Sign out</h2>
+        <p>Signs you out of baderech.app on this browser.</p>
+        <div class="actions"><button class="btn" type="button" id="signout">Sign out</button></div>
+      </div>
+
+      <div class="card danger-zone">
+        <h2>Delete account</h2>
+        <p>This permanently deletes your Baderech account, your sessions and your connected sign-ins. It can't be undone. What's saved on your devices stays there.</p>
+        <form id="delete">
+          <div class="field" id="del-pass-field" hidden><label for="del-pass">Your password</label><input id="del-pass" type="password" autocomplete="current-password"></div>
+          <div class="field"><label for="del-confirm">Type <strong>delete</strong> to confirm</label><input id="del-confirm" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+          <button class="btn danger solid" type="submit" id="del-btn" disabled>Delete my account</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 BeezyWorks · <span lang="he">בס״ד</span></span>
+    <nav aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:mattaniah@beezyworks.com">Contact</a>
+    </nav>
+  </footer>
+</div>
+</body>
+</html>
